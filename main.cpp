@@ -9,7 +9,6 @@ int main() {
     board.setup();
     board.printBoardRules();
     board.play();
-
     return 0;
 }
 

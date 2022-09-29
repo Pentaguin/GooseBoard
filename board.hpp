@@ -22,6 +22,7 @@ public:
     void play();
     void setEndGame(bool);
     bool getEndGame();
+    void boardRulesImplementation(short);
 };
 
 #endif

@@ -54,9 +54,9 @@ void Board::printBoardRules() {
 
 void Board::play() {
     while(getEndGame() != true) {
-        for(short i = 0; i < getNumberOfPlayers(); i++) {
+        for(short playerIndex = 0; playerIndex < getNumberOfPlayers(); playerIndex++) {
             cout << endl;
-            cout << "Player " << players[i].GetName() << " turn."<< endl;
+            cout << "Player " << players[playerIndex].GetName() << " turn."<< endl;
             cout << "Enter [r] to read the rules again." << endl;
             cout << "Enter [x] to roll a dice." << endl;
 
@@ -66,18 +66,17 @@ void Board::play() {
             
             if(keyBoardInput == 'r') {
                 printBoardRules();
-                i--;
+                playerIndex--;
             } else if (keyBoardInput == 'x') {
                 short diceValue = getRolledDiceValue();
-                cout << "Player " << players[i].GetName() << " rolled " << diceValue << endl;
-                players[i].SetPosition(players[i].GetPosition() + diceValue);
-                // void boardRulesImplementation()
-                // landed on 6, player now go to 12. player new position is now 12
-                // if 63 setEndGame(true);
-                cout << "Player " << players[i].GetName() << " new position: " << players[i].GetPosition() << endl;
-
+                cout << "Player " << players[playerIndex].GetName() << " rolled " << diceValue << endl;
+                Sleep(1000);
+                players[playerIndex].SetPosition(players[playerIndex].GetPosition() + diceValue);
+                boardRulesImplementation(playerIndex);
+                Sleep(1000);
+            // else if (ADMIN MODE)
             } else {
-                i--;
+                playerIndex--;
             }   
         }
         printPlayerPosition();
@@ -91,7 +90,27 @@ short Board::getRolledDiceValue() {
 void Board::printPlayerPosition() {
     cout << endl;
     cout << "POSITION:" << endl;
-    for (short i = 0; i < getNumberOfPlayers(); i++) {
-        cout << players[i].GetName() << ": " << players[i].GetPosition() << endl;
+    for (short playerIndex = 0; playerIndex < getNumberOfPlayers(); playerIndex++) {
+        cout << players[playerIndex].GetName() << ": " << players[playerIndex].GetPosition() << endl;
     }
+}
+
+void Board::boardRulesImplementation(short playerIndex) {
+    // if 63 setEndGame(true);
+
+    if(players[playerIndex].GetPosition() == 6) {
+        cout << "Player " << players[playerIndex].GetName() << " landed on [Bridge - space 6] and can move forward to space 12. " << endl;
+        players[playerIndex].SetPosition(12);
+    } 
+    else if(players[playerIndex].GetPosition() == 12) {
+        cout << "Player " << players[playerIndex].GetName() << " landed on [Bridge - space 12] and has to walk back to space 6. " << endl;
+        players[playerIndex].SetPosition(6);
+    }
+    
+    // if 63 setEndGame(true);
+    //else
+    cout << "Player " << players[playerIndex].GetName() << " new position: " << players[playerIndex].GetPosition() << endl;
+    
+
+    
 }
