@@ -12,17 +12,18 @@ private:
     std::vector<Player> players;
     bool endGame;
 
-public:
-    void setup();
     void setNumberOfPlayers(short);
     short getNumberOfPlayers();
     short getRolledDiceValue();
     void printPlayerPosition();
-    void printBoardRules();
-    void play();
     void setEndGame(bool);
     bool getEndGame();
     void boardRulesImplementation(short);
+
+public:
+    void setup();
+    void printBoardRules();
+    void play();
 };
 
 #endif

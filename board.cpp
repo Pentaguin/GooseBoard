@@ -6,11 +6,9 @@
 using namespace std;
 
 void Board::setup() {
-    // Use current time as seed to get random numbers
-    srand(time(0));
-
-    cout << "Enter number of players:  ";
     short numberOfPlayers;
+    srand(time(0)); // Use current time as seed to get random numbers
+    cout << "Enter number of players:  ";
     cin >> numberOfPlayers;
     cin.ignore(256, '\n');  // Get rid of the endline
     setNumberOfPlayers(numberOfPlayers);
@@ -27,11 +25,6 @@ void Board::setup() {
         Sleep(1000);
     }
 }
-
-short Board::getNumberOfPlayers() { return Board::numberOfPlayers; }
-bool Board::getEndGame() { return Board::endGame; }
-void Board::setNumberOfPlayers(short numberOfPlayers) { Board::numberOfPlayers = numberOfPlayers; }
-void Board::setEndGame(bool endGame) { Board::endGame = endGame; }
     
 void Board::printBoardRules() {
     cout << endl;
@@ -53,8 +46,8 @@ void Board::printBoardRules() {
 }
 
 void Board::play() {
-    while(getEndGame() != true) {
-        for(short playerIndex = 0; playerIndex < getNumberOfPlayers(); playerIndex++) {
+    while (getEndGame() != true) {
+        for (short playerIndex = 0; playerIndex < getNumberOfPlayers(); playerIndex++) {
             cout << endl;
             cout << "Player " << players[playerIndex].GetName() << " turn."<< endl;
             cout << "Enter [r] to read the rules again." << endl;
@@ -64,18 +57,29 @@ void Board::play() {
             cin >> keyBoardInput;
             cin.ignore(256, '\n');  // Get rid of the endline
             
-            if(keyBoardInput == 'r') {
+            if (keyBoardInput == 'r') {
                 printBoardRules();
                 playerIndex--;
-            } else if (keyBoardInput == 'x') {
+            } 
+            else if (keyBoardInput == 'x') {
                 short diceValue = getRolledDiceValue();
                 cout << "Player " << players[playerIndex].GetName() << " rolled " << diceValue << endl;
                 Sleep(1000);
                 players[playerIndex].SetPosition(players[playerIndex].GetPosition() + diceValue);
                 boardRulesImplementation(playerIndex);
                 Sleep(1000);
-            // else if (ADMIN MODE)
-            } else {
+            } 
+            else if (keyBoardInput == 'a') { // Temporary key for debugging
+                short diceValue;
+                cin >> diceValue;
+                cin.ignore(256, '\n');  // Get rid of the endline
+                cout << "Player " << players[playerIndex].GetName() << " rolled " << diceValue << endl;
+                Sleep(1000);
+                players[playerIndex].SetPosition(players[playerIndex].GetPosition() + diceValue);
+                boardRulesImplementation(playerIndex);
+                Sleep(1000);
+            } 
+            else {
                 playerIndex--;
             }   
         }
@@ -83,8 +87,24 @@ void Board::play() {
     }
 }
 
-short Board::getRolledDiceValue() {
-    return rand() % (maxDiceValue - minDiceValue + 1) + minDiceValue;
+void Board::boardRulesImplementation(short playerIndex) {
+    if (players[playerIndex].GetPosition() == 6) { // Algorithm for bridge
+        cout << "Player " << players[playerIndex].GetName() << " landed on [Bridge - space 6] and can move forward to space 12. " << endl;
+        players[playerIndex].SetPosition(12);
+    } 
+    else if (players[playerIndex].GetPosition() == 12) { // Algorithm for bridge
+        cout << "Player " << players[playerIndex].GetName() << " landed on [Bridge - space 12] and has to walk back to space 6. " << endl;
+        players[playerIndex].SetPosition(6);
+    }
+    
+    if (players[playerIndex].GetPosition() == 63) { // Algorithm for end game
+        cout << "Player " << players[playerIndex].GetName() << " landed on 63." << endl << "Congratulations. You won the game." << endl;
+        Sleep(1000);
+        setEndGame(true);
+    } 
+    else {
+        cout << "Player " << players[playerIndex].GetName() << " new position: " << players[playerIndex].GetPosition() << endl;
+    }
 }
 
 void Board::printPlayerPosition() {
@@ -95,22 +115,12 @@ void Board::printPlayerPosition() {
     }
 }
 
-void Board::boardRulesImplementation(short playerIndex) {
-    // if 63 setEndGame(true);
-
-    if(players[playerIndex].GetPosition() == 6) {
-        cout << "Player " << players[playerIndex].GetName() << " landed on [Bridge - space 6] and can move forward to space 12. " << endl;
-        players[playerIndex].SetPosition(12);
-    } 
-    else if(players[playerIndex].GetPosition() == 12) {
-        cout << "Player " << players[playerIndex].GetName() << " landed on [Bridge - space 12] and has to walk back to space 6. " << endl;
-        players[playerIndex].SetPosition(6);
-    }
-    
-    // if 63 setEndGame(true);
-    //else
-    cout << "Player " << players[playerIndex].GetName() << " new position: " << players[playerIndex].GetPosition() << endl;
-    
-
-    
+short Board::getRolledDiceValue() {
+    return rand() % (maxDiceValue - minDiceValue + 1) + minDiceValue;
 }
+
+short Board::getNumberOfPlayers() { return Board::numberOfPlayers; }
+bool Board::getEndGame() { return Board::endGame; }
+void Board::setNumberOfPlayers(short numberOfPlayers) { Board::numberOfPlayers = numberOfPlayers; }
+void Board::setEndGame(bool endGame) { Board::endGame = endGame; }
+
