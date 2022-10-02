@@ -8,6 +8,7 @@ class Board {
 private:
     const short minDiceValue = 1;
     const short maxDiceValue = 6;
+    const short gooseBoardLastSpace = 63;
     short numberOfPlayers;
     std::vector<Player> players;
     bool endGame;
@@ -18,7 +19,7 @@ private:
     void printPlayerPosition();
     void setEndGame(bool);
     bool getEndGame();
-    void boardRulesImplementation(short);
+    void boardRulesImplementation(short, short);
 
 public:
     void setup();
