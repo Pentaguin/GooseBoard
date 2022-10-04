@@ -86,6 +86,20 @@ void Board::play() {
 }
 
 void Board::boardRulesImplementation(short playerIndex, short diceValue) {
+
+    // Algorithm for when the player cant move.
+    if (players[playerIndex].getTurnsLeftInJail() > 1) {
+        players[playerIndex].setTurnsLeftInJail(players[playerIndex].getTurnsLeftInJail() - 1);
+        cout << "Player " << players[playerIndex].getName() << " still needs to stay in this space for " << players[playerIndex].getTurnsLeftInJail() << " turns." << endl;
+        return;
+    }
+    else if (players[playerIndex].getTurnsLeftInJail() == 1) {
+        players[playerIndex].setTurnsLeftInJail(0);
+        cout << "Player " << players[playerIndex].getName() << " is free next turn." << endl;
+        return;
+    }
+
+    // Algorithm for the special spaces from GooseBoard
     if (players[playerIndex].getPosition() + diceValue == 6) { // Bridge
         cout << "Player " << players[playerIndex].getName() << " landed on [Bridge - space 6] and can move forward to space 12. " << endl;
         players[playerIndex].setPosition(12);
@@ -93,6 +107,24 @@ void Board::boardRulesImplementation(short playerIndex, short diceValue) {
     else if (players[playerIndex].getPosition() + diceValue == 12) { // Bridge
         cout << "Player " << players[playerIndex].getName() << " landed on [Bridge - space 12] and has to walk back to space 6. " << endl;
         players[playerIndex].setPosition(6);
+    } 
+    else if (players[playerIndex].getPosition() + diceValue == 19) { // Inn
+        cout << "Player " << players[playerIndex].getName() << " landed on [Inn- space 19] and is gonna stay for 2 turns. " << endl;
+        players[playerIndex].setPosition(19);
+        players[playerIndex].setTurnsLeftInJail(2);
+    } 
+    else if (players[playerIndex].getPosition() + diceValue == 42) { // Maze
+        cout << "Player " << players[playerIndex].getName() << " landed on [Maze - space 42], got lost and walked back to space 30. " << endl;
+        players[playerIndex].setPosition(30);
+    } 
+    else if (players[playerIndex].getPosition() + diceValue == 56) { // Jail
+        cout << "Player " << players[playerIndex].getName() << " landed on [Jail- space 56]. Wait 3 turns." << endl;
+        players[playerIndex].setPosition(56);
+        players[playerIndex].setTurnsLeftInJail(3);
+    }
+    else if (players[playerIndex].getPosition() + diceValue == 58) { // Death
+        cout << "Player " << players[playerIndex].getName() << " landed on [Death- space 58]. Go back to space 1." << endl;
+        players[playerIndex].setPosition(1);
     } 
     else if (players[playerIndex].getPosition() + diceValue > gooseBoardLastSpace) { // Algorithm for when the player surpass gooseBoardLastSpace
         short temporaryPosition = players[playerIndex].getPosition() + diceValue;
