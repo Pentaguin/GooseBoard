@@ -19,9 +19,9 @@ void Board::setup() {
         string playerName;
         cout << "Enter name of player " << i + 1 << "\t";
         getline(cin, playerName);
-        player.SetName(playerName);
+        player.setName(playerName);
         players.push_back(player);
-        cout << "Welcome player "<< players[i].GetName() << endl;
+        cout << "Welcome player "<< players[i].getName() << endl;
         Sleep(1000);
     }
 }
@@ -49,7 +49,7 @@ void Board::play() {
     while (getEndGame() != true) {
         for (short playerIndex = 0; playerIndex < getNumberOfPlayers(); playerIndex++) {
             cout << endl;
-            cout << "Player " << players[playerIndex].GetName() << " turn."<< endl;
+            cout << "Player " << players[playerIndex].getName() << " turn."<< endl;
             cout << "Enter [r] to read the rules again." << endl;
             cout << "Enter [x] to roll a dice." << endl;
 
@@ -63,7 +63,7 @@ void Board::play() {
             } 
             else if (keyBoardInput == 'x') {
                 short diceValue = getRolledDiceValue();
-                cout << "Player " << players[playerIndex].GetName() << " rolled " << diceValue << endl;
+                cout << "Player " << players[playerIndex].getName() << " rolled " << diceValue << endl;
                 Sleep(1000);
                 boardRulesImplementation(playerIndex, diceValue);
                 Sleep(1000);
@@ -72,7 +72,7 @@ void Board::play() {
                 short diceValue;
                 cin >> diceValue;
                 cin.ignore(256, '\n');  // Get rid of the endline
-                cout << "Player " << players[playerIndex].GetName() << " rolled " << diceValue << endl;
+                cout << "Player " << players[playerIndex].getName() << " rolled " << diceValue << endl;
                 Sleep(1000);
                 boardRulesImplementation(playerIndex, diceValue);
                 Sleep(1000);
@@ -86,37 +86,37 @@ void Board::play() {
 }
 
 void Board::boardRulesImplementation(short playerIndex, short diceValue) {
-    if (players[playerIndex].GetPosition() + diceValue == 6) { // Bridge
-        cout << "Player " << players[playerIndex].GetName() << " landed on [Bridge - space 6] and can move forward to space 12. " << endl;
-        players[playerIndex].SetPosition(12);
+    if (players[playerIndex].getPosition() + diceValue == 6) { // Bridge
+        cout << "Player " << players[playerIndex].getName() << " landed on [Bridge - space 6] and can move forward to space 12. " << endl;
+        players[playerIndex].setPosition(12);
     } 
-    else if (players[playerIndex].GetPosition() + diceValue == 12) { // Bridge
-        cout << "Player " << players[playerIndex].GetName() << " landed on [Bridge - space 12] and has to walk back to space 6. " << endl;
-        players[playerIndex].SetPosition(6);
+    else if (players[playerIndex].getPosition() + diceValue == 12) { // Bridge
+        cout << "Player " << players[playerIndex].getName() << " landed on [Bridge - space 12] and has to walk back to space 6. " << endl;
+        players[playerIndex].setPosition(6);
     } 
-    else if (players[playerIndex].GetPosition() + diceValue > gooseBoardLastSpace) { // Algorithm for when the player surpass gooseBoardLastSpace
-        short temporaryPosition = players[playerIndex].GetPosition() + diceValue;
-        players[playerIndex].SetPosition(gooseBoardLastSpace - (temporaryPosition - gooseBoardLastSpace));
+    else if (players[playerIndex].getPosition() + diceValue > gooseBoardLastSpace) { // Algorithm for when the player surpass gooseBoardLastSpace
+        short temporaryPosition = players[playerIndex].getPosition() + diceValue;
+        players[playerIndex].setPosition(gooseBoardLastSpace - (temporaryPosition - gooseBoardLastSpace));
     } 
-    else if (players[playerIndex].GetPosition() + diceValue == gooseBoardLastSpace) { // End game
-        players[playerIndex].SetPosition(63);
-        cout << "Player " << players[playerIndex].GetName() << " landed on 63." << endl << "Congratulations. You won the game." << endl;
+    else if (players[playerIndex].getPosition() + diceValue == gooseBoardLastSpace) { // End game
+        players[playerIndex].setPosition(63);
+        cout << "Player " << players[playerIndex].getName() << " landed on 63." << endl << "Congratulations. You won the game." << endl;
         Sleep(1000);
         setEndGame(true);
         return;
     } 
     else {
-        players[playerIndex].SetPosition(players[playerIndex].GetPosition() + diceValue);
+        players[playerIndex].setPosition(players[playerIndex].getPosition() + diceValue);
     }
 
-    cout << "Player " << players[playerIndex].GetName() << " new position: " << players[playerIndex].GetPosition() << endl;
+    cout << "Player " << players[playerIndex].getName() << " new position: " << players[playerIndex].getPosition() << endl;
 }
 
 void Board::printPlayerPosition() {
     cout << endl;
     cout << "POSITION:" << endl;
     for (short playerIndex = 0; playerIndex < getNumberOfPlayers(); playerIndex++) {
-        cout << players[playerIndex].GetName() << ": " << players[playerIndex].GetPosition() << endl;
+        cout << players[playerIndex].getName() << ": " << players[playerIndex].getPosition() << endl;
     }
 }
 

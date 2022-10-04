@@ -1,7 +1,7 @@
 #include "player.hpp"
 
-std::string Player::GetName() { return name; }
-void Player::SetName(std::string name) { Player::name = name; }
-short Player::GetPosition() { return position; }
-void Player::SetPosition(short pos) { position = pos; }
+std::string Player::getName() { return name; }
+void Player::setName(std::string name) { Player::name = name; }
+short Player::getPosition() { return position; }
+void Player::setPosition(short pos) { position = pos; }
     

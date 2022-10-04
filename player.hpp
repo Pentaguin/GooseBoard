@@ -9,12 +9,12 @@ private:
     short turnsLeftInJail = 0;
 
 public:
-    void SetName(std::string);
-    void SetPosition(short);
-    void SetTurnsLeftInJail(short);
-    std::string GetName();
-    short GetPosition();
-    short GetTurnsLeftInJail();
+    void setName(std::string);
+    void setPosition(short);
+    void setTurnsLeftInJail(short);
+    std::string getName();
+    short getPosition();
+    short getTurnsLeftInJail();
 };
 
 #endif
