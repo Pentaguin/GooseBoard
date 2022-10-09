@@ -6,7 +6,7 @@
 using namespace std;
 
 void Board::setup() {
-    short numberOfPlayers;
+    int numberOfPlayers;
     srand(time(0)); // Use current time as seed to get random numbers
     cout << "Enter number of players:  ";
     cin >> numberOfPlayers;
@@ -47,7 +47,7 @@ void Board::printBoardRules() {
 
 void Board::play() {
     while (getEndGame() != true) {
-        for (short playerIndex = 0; playerIndex < getNumberOfPlayers(); playerIndex++) {
+        for (int playerIndex = 0; playerIndex < getNumberOfPlayers(); playerIndex++) {
             cout << endl;
             cout << "Player " << players[playerIndex].getName() << " turn."<< endl;
             cout << "Enter [r] to read the rules again." << endl;
@@ -62,16 +62,7 @@ void Board::play() {
                 playerIndex--;
             } 
             else if (keyBoardInput == 'x') {
-                short diceValue = getRolledDiceValue();
-                cout << "Player " << players[playerIndex].getName() << " rolled " << diceValue << endl;
-                Sleep(1000);
-                boardRulesImplementation(playerIndex, diceValue);
-                Sleep(1000);
-            } 
-            else if (keyBoardInput == 'a') { // Temporary key for debugging
-                short diceValue;
-                cin >> diceValue;
-                cin.ignore(256, '\n');  // Get rid of the endline
+                int diceValue = getRolledDiceValue();
                 cout << "Player " << players[playerIndex].getName() << " rolled " << diceValue << endl;
                 Sleep(1000);
                 boardRulesImplementation(playerIndex, diceValue);
@@ -85,7 +76,7 @@ void Board::play() {
     }
 }
 
-void Board::boardRulesImplementation(short playerIndex, short diceValue) {
+void Board::boardRulesImplementation(int playerIndex, int diceValue) {
 
     // Algorithm for when the player cant move.
     if (players[playerIndex].getTurnsLeftInJail() > 1) {
@@ -101,7 +92,7 @@ void Board::boardRulesImplementation(short playerIndex, short diceValue) {
 
     // Algorithm for when the player surpass gooseBoardLastSpace
     if (players[playerIndex].getPosition() + diceValue > gooseBoardLastSpace) { 
-        short temporaryPosition = players[playerIndex].getPosition() + diceValue;
+        int temporaryPosition = players[playerIndex].getPosition() + diceValue;
         players[playerIndex].setPosition(gooseBoardLastSpace - (temporaryPosition - gooseBoardLastSpace));
     } 
 
@@ -123,7 +114,7 @@ void Board::boardRulesImplementation(short playerIndex, short diceValue) {
         bool playerWasInWell = false;
 
         // Itterate through every players and check if a player is on space 31 and is in jail.
-        for (short i = 0; i < numberOfPlayers; i++) {
+        for (int i = 0; i < numberOfPlayers; i++) {
             if (players[i].getPosition() == 31 && players[i].getTurnsLeftInJail() > 0) {
                 players[i].setTurnsLeftInJail(0);
                 cout << "Player " << players[i].getName() << " was in the well. You freed the other player, but you accidently fell and took over his place. Wait 4 turns or wait until someone takes your place." << endl;
@@ -168,17 +159,17 @@ void Board::boardRulesImplementation(short playerIndex, short diceValue) {
 void Board::printPlayerPosition() {
     cout << endl;
     cout << "POSITION:" << endl;
-    for (short playerIndex = 0; playerIndex < getNumberOfPlayers(); playerIndex++) {
+    for (int playerIndex = 0; playerIndex < getNumberOfPlayers(); playerIndex++) {
         cout << players[playerIndex].getName() << ": " << players[playerIndex].getPosition() << endl;
     }
 }
 
-short Board::getRolledDiceValue() {
+int Board::getRolledDiceValue() {
     return rand() % (maxDiceValue - minDiceValue + 1) + minDiceValue;
 }
 
-short Board::getNumberOfPlayers() { return Board::numberOfPlayers; }
+int Board::getNumberOfPlayers() { return Board::numberOfPlayers; }
 bool Board::getEndGame() { return Board::endGame; }
-void Board::setNumberOfPlayers(short numberOfPlayers) { Board::numberOfPlayers = numberOfPlayers; }
+void Board::setNumberOfPlayers(int numberOfPlayers) { Board::numberOfPlayers = numberOfPlayers; }
 void Board::setEndGame(bool endGame) { Board::endGame = endGame; }
 

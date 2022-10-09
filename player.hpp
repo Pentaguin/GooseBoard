@@ -5,16 +5,16 @@
 class Player {
 private:
     std::string name;
-    short position = 0;
-    short turnsLeftInJail = 0;
+    int position = 0;
+    int turnsLeftInJail = 0;
 
 public:
     void setName(std::string);
-    void setPosition(short);
-    void setTurnsLeftInJail(short);
+    void setPosition(int);
+    void setTurnsLeftInJail(int);
     std::string getName();
-    short getPosition();
-    short getTurnsLeftInJail();
+    int getPosition();
+    int getTurnsLeftInJail();
 };
 
 #endif

@@ -6,20 +6,20 @@
 
 class Board {
 private:
-    const short minDiceValue = 1;
-    const short maxDiceValue = 6;
-    const short gooseBoardLastSpace = 63;
-    short numberOfPlayers;
+    const int minDiceValue = 1;
+    const int maxDiceValue = 6;
+    const int gooseBoardLastSpace = 63;
+    int numberOfPlayers;
     std::vector<Player> players;
     bool endGame;
 
-    void setNumberOfPlayers(short);
-    short getNumberOfPlayers();
-    short getRolledDiceValue();
+    void setNumberOfPlayers(int);
+    int getNumberOfPlayers();
+    int getRolledDiceValue();
     void printPlayerPosition();
     void setEndGame(bool);
     bool getEndGame();
-    void boardRulesImplementation(short, short);
+    void boardRulesImplementation(int, int);
 
 public:
     void setup();
