@@ -9,7 +9,19 @@ void Board::setup() {
     int numberOfPlayers;
     srand(time(0)); // Use current time as seed to get random numbers
     cout << "Enter number of players:  ";
+
+    // Only accept integers as input
+    while (true) {
     cin >> numberOfPlayers;
+    if (!cin) {
+        cout << "Not a number" << endl;
+        cin.clear();
+        cin.ignore(256, '\n');  // Get rid of the endline
+        continue;
+    }
+    else break;
+    }
+
     cin.ignore(256, '\n');  // Get rid of the endline
     setNumberOfPlayers(numberOfPlayers);
 
@@ -77,7 +89,6 @@ void Board::play() {
 }
 
 void Board::boardRulesImplementation(int playerIndex, int diceValue) {
-
     // Algorithm for when the player cant move.
     if (players[playerIndex].getTurnsLeftInJail() > 1) {
         players[playerIndex].setTurnsLeftInJail(players[playerIndex].getTurnsLeftInJail() - 1);
